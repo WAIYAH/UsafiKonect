@@ -1,0 +1,17 @@
+{
+    "name": "usafikonect/laundry-platform",
+    "description": "UsafiKonect - Nairobi Laundry Service Platform",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.0",
+        "phpmailer/phpmailer": "^6.8"
+    },
+    "autoload": {
+        "files": [
+            "config/database.php",
+            "config/security.php",
+            "config/functions.php"
+        ]
+    }
+}

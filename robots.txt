@@ -1,0 +1,15 @@
+# UsafiKonect Robots.txt
+User-agent: *
+Allow: /
+
+# Disallow sensitive directories
+Disallow: /config/
+Disallow: /sql/
+Disallow: /logs/
+Disallow: /vendor/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /assets/uploads/
+
+# Sitemap
+Sitemap: http://localhost/usafikonect/sitemap.xml

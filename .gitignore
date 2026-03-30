@@ -416,3 +416,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Composer dependencies
+vendor/
+
+# Plan/draft files
+Phase*.md
+Phase*.MD
