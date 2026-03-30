@@ -72,6 +72,16 @@ function validate_csrf_token(): bool {
 }
 
 /**
+ * Validate CSRF token and halt on failure
+ */
+function validate_csrf(): void {
+    if (!validate_csrf_token()) {
+        http_response_code(403);
+        die('Invalid CSRF token. Please go back and try again.');
+    }
+}
+
+/**
  * Sanitize input - remove tags and trim
  */
 function sanitize_input(string $data): string {

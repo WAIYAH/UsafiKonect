@@ -55,11 +55,6 @@ include __DIR__ . '/../includes/sidebar.php';
 ?>
 
 <main class="lg:ml-64 p-4 lg:p-8 dashboard-content">
-    <div class="mb-8">
-        <h1 class="text-2xl lg:text-3xl font-bold text-gray-800">Admin Dashboard</h1>
-        <p class="text-gray-500 mt-1">Platform overview and management</p>
-    </div>
-    
     <?= render_flash() ?>
     
     <!-- Stats Grid -->

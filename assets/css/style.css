@@ -158,6 +158,12 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
     .dashboard-content { padding-bottom: 5rem; }
 }
 
+/* Dashboard content top offset for sticky header */
+.dashboard-content { padding-top: 5rem; }
+@media (min-width: 1024px) {
+    .dashboard-content { padding-top: 6rem; }
+}
+
 /* Star rating display */
 .stars { color: #F59E0B; }
 .stars-empty { color: #D1D5DB; }

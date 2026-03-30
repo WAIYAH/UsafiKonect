@@ -54,7 +54,7 @@ if ($user_role === 'customer') {
 ?>
 
 <!-- Desktop Sidebar -->
-<aside class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:pt-16 bg-white dark:bg-gray-800 border-r dark:border-gray-700 shadow-sm z-40">
+<aside class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 lg:pt-16 bg-white dark:bg-gray-800 border-r dark:border-gray-700 shadow-sm z-30">
     <!-- User Info -->
     <div class="p-4 border-b dark:border-gray-700">
         <div class="flex items-center space-x-3">
@@ -93,8 +93,62 @@ if ($user_role === 'customer') {
     </div>
 </aside>
 
+<!-- Mobile Sidebar Overlay -->
+<div id="mobileSidebarOverlay" class="hidden lg:hidden fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/50" onclick="document.getElementById('mobileSidebarOverlay').classList.add('hidden')"></div>
+    <aside class="absolute left-0 top-0 bottom-0 w-72 bg-white dark:bg-gray-800 shadow-xl overflow-y-auto">
+        <!-- Close button -->
+        <div class="flex items-center justify-between p-4 border-b dark:border-gray-700">
+            <a href="<?= APP_URL ?>/index.php" class="flex items-center space-x-2">
+                <span class="text-2xl">🧺</span>
+                <span class="text-lg font-bold"><span class="text-orange-500">Usafi</span><span class="text-deepblue-800 dark:text-blue-300">Konect</span></span>
+            </a>
+            <button onclick="document.getElementById('mobileSidebarOverlay').classList.add('hidden')" class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- User Info -->
+        <div class="p-4 border-b dark:border-gray-700">
+            <div class="flex items-center space-x-3">
+                <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white truncate"><?= e($user_data['full_name'] ?? 'User') ?></p>
+                    <p class="text-xs text-orange-500 capitalize"><?= e($user_role) ?></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nav Items -->
+        <nav class="px-3 py-4 space-y-1">
+            <?php foreach ($sidebar_items as $item): 
+                $isActive = basename($item['url']) === $current_page;
+            ?>
+            <a href="<?= APP_URL ?>/<?= $item['url'] ?>" 
+               class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+                      <?= $isActive 
+                          ? 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400' 
+                          : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' ?>">
+                <i class="fas <?= $item['icon'] ?> w-5 text-center mr-3 <?= $isActive ? 'text-orange-500' : '' ?>"></i>
+                <span class="flex-1"><?= e($item['label']) ?></span>
+                <?php if (!empty($item['badge']) && $item['badge'] > 0): ?>
+                    <span class="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold"><?= $item['badge'] ?></span>
+                <?php endif; ?>
+            </a>
+            <?php endforeach; ?>
+        </nav>
+        
+        <!-- Logout -->
+        <div class="p-4 border-t dark:border-gray-700">
+            <a href="<?= APP_URL ?>/auth/logout.php" class="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                <i class="fas fa-sign-out-alt w-5 mr-3"></i> Logout
+            </a>
+        </div>
+    </aside>
+</div>
+
 <!-- Mobile Bottom Navigation -->
-<nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg z-50">
+<nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg z-40">
     <div class="flex justify-around items-center h-16 px-2">
         <?php 
         // Show only 5 key items for mobile
@@ -115,3 +169,5 @@ if ($user_role === 'customer') {
         <?php endforeach; ?>
     </div>
 </nav>
+
+<?php include __DIR__ . '/dashboard-header.php'; ?>
