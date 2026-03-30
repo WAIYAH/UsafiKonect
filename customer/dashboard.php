@@ -182,7 +182,17 @@ include __DIR__ . '/../includes/sidebar.php';
             <div class="divide-y divide-gray-50 max-h-80 overflow-y-auto">
                 <?php foreach ($notifications as $n): ?>
                 <div class="px-4 py-3 <?= !$n['is_read'] ? 'bg-orange-50/50' : '' ?>">
-                    <div class="font-medium text-sm text-gray-800"><?= e($n['title']) ?></div>
+                    <?php 
+                    $notifTitle = match($n['type']) {
+                        'booking' => 'Booking Update',
+                        'payment' => 'Payment Update',
+                        'rating' => 'New Review',
+                        'security' => 'Security Alert',
+                        'system' => 'System Notice',
+                        default => 'Notification'
+                    };
+                    ?>
+                    <div class="font-medium text-sm text-gray-800"><?= e($notifTitle) ?></div>
                     <div class="text-xs text-gray-500 mt-0.5"><?= e(mb_substr($n['message'], 0, 80)) ?>...</div>
                     <div class="text-xs text-gray-400 mt-1"><?= time_ago($n['created_at']) ?></div>
                 </div>

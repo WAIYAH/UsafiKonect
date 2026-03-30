@@ -49,10 +49,10 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4 text-orange-400">Legal</h3>
                     <ul class="space-y-2">
-                        <li><a href="<?= APP_URL ?>/legal/terms.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Terms of Service</a></li>
-                        <li><a href="<?= APP_URL ?>/legal/privacy.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Privacy Policy</a></li>
-                        <li><a href="<?= APP_URL ?>/legal/cookies.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Cookie Policy</a></li>
-                        <li><a href="<?= APP_URL ?>/legal/refund.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Refund Policy</a></li>
+                        <li><a href="<?= APP_URL ?>/terms.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Terms of Service</a></li>
+                        <li><a href="<?= APP_URL ?>/privacy.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Privacy Policy</a></li>
+                        <li><a href="<?= APP_URL ?>/cookies.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Cookie Policy</a></li>
+                        <li><a href="<?= APP_URL ?>/refund.php" class="text-gray-300 hover:text-orange-400 transition-colors text-sm">Refund Policy</a></li>
                     </ul>
                 </div>
                 
@@ -96,7 +96,7 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div class="flex-1">
                 <h4 class="font-semibold text-gray-900 dark:text-white text-sm">🍪 We use cookies</h4>
-                <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">We use cookies to enhance your experience. By continuing, you agree to our <a href="<?= APP_URL ?>/legal/cookies.php" class="text-orange-500 underline">Cookie Policy</a>.</p>
+                <p class="text-gray-600 dark:text-gray-300 text-xs mt-1">We use cookies to enhance your experience. By continuing, you agree to our <a href="<?= APP_URL ?>/cookies.php" class="text-orange-500 underline">Cookie Policy</a>.</p>
             </div>
             <div class="flex items-center gap-2 flex-shrink-0">
                 <button onclick="rejectCookies()" class="px-4 py-2 text-xs font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">Reject</button>

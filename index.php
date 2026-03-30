@@ -6,9 +6,8 @@
 
 require_once __DIR__ . '/config/functions.php';
 
-if (is_logged_in()) {
-    redirect(APP_URL . '/' . get_user_role() . '/dashboard.php');
-}
+// Allow logged-in users to view the landing page
+// They can navigate here via the Home link
 
 // Fetch active providers and stats
 $db = getDB();

@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_booking'])) {
         if (empty($pickupAddress)) $errors[] = 'Please enter pickup address.';
         
         // Rate limit
-        if (!check_booking_rate_limit()) $errors[] = 'Too many bookings. Please try again later.';
+        if (!check_booking_rate_limit($userId)) $errors[] = 'Too many bookings. Please try again later.';
         
         if (empty($errors)) {
             // Calculate amount

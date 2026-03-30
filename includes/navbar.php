@@ -6,7 +6,7 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 $is_auth = is_logged_in();
 $user_role = $is_auth ? get_user_role() : '';
-$user_data = $is_auth ? get_current_user() : [];
+$user_data = $is_auth ? get_current_user_data() : [];
 $notification_count = $is_auth ? get_unread_notification_count(get_user_id()) : 0;
 ?>
 
@@ -29,6 +29,9 @@ $notification_count = $is_auth ? get_unread_notification_count(get_user_id()) : 
                     <a href="<?= APP_URL ?>/pricing.php" class="nav-link <?= $current_page === 'pricing.php' ? 'nav-active' : '' ?>">Pricing</a>
                     <a href="<?= APP_URL ?>/contact.php" class="nav-link <?= $current_page === 'contact.php' ? 'nav-active' : '' ?>">Contact</a>
                 <?php else: ?>
+                    <a href="<?= APP_URL ?>/index.php" class="nav-link <?= $current_page === 'index.php' ? 'nav-active' : '' ?>">
+                        <i class="fas fa-home mr-1"></i> Home
+                    </a>
                     <a href="<?= APP_URL ?>/<?= $user_role ?>/dashboard.php" class="nav-link <?= $current_page === 'dashboard.php' ? 'nav-active' : '' ?>">
                         <i class="fas fa-tachometer-alt mr-1"></i> Dashboard
                     </a>
@@ -124,6 +127,7 @@ $notification_count = $is_auth ? get_unread_notification_count(get_user_id()) : 
                 </div>
                 <a href="<?= APP_URL ?>/<?= $user_role ?>/dashboard.php" class="mobile-nav-link"><i class="fas fa-tachometer-alt w-6"></i> Dashboard</a>
                 <?php if ($user_role === 'customer'): ?>
+                    <a href="<?= APP_URL ?>/index.php" class="mobile-nav-link"><i class="fas fa-home w-6"></i> Home</a>
                     <a href="<?= APP_URL ?>/customer/providers.php" class="mobile-nav-link"><i class="fas fa-search w-6"></i> Find Providers</a>
                     <a href="<?= APP_URL ?>/customer/bookings.php" class="mobile-nav-link"><i class="fas fa-clipboard-list w-6"></i> My Bookings</a>
                     <a href="<?= APP_URL ?>/customer/wallet.php" class="mobile-nav-link"><i class="fas fa-wallet w-6"></i> Wallet</a>

@@ -94,7 +94,17 @@ include __DIR__ . '/../includes/sidebar.php';
                 ?>"></i>
             </div>
             <div class="flex-1 min-w-0">
-                <div class="font-semibold text-gray-800 text-sm"><?= e($n['title']) ?></div>
+                <?php 
+                $notifTitle = match($n['type']) {
+                    'booking' => 'Booking Update',
+                    'payment' => 'Payment Update',
+                    'rating' => 'New Review',
+                    'security' => 'Security Alert',
+                    'system' => 'System Notice',
+                    default => 'Notification'
+                };
+                ?>
+                <div class="font-semibold text-gray-800 text-sm"><?= e($notifTitle) ?></div>
                 <p class="text-sm text-gray-600 mt-0.5"><?= e($n['message']) ?></p>
                 <div class="text-xs text-gray-400 mt-1"><?= time_ago($n['created_at']) ?></div>
             </div>

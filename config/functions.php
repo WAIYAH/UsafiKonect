@@ -39,7 +39,7 @@ function get_user_role(): string {
 /**
  * Get current user data from session
  */
-function get_current_user(): array {
+function get_current_user_data(): array {
     return $_SESSION['user_data'] ?? [];
 }
 

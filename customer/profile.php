@@ -35,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
         // Handle profile image upload
         $profileImage = $user['profile_image'];
         if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-            $uploadResult = upload_image($_FILES['profile_image'], 'profiles');
-            if ($uploadResult['success']) {
-                $profileImage = $uploadResult['path'];
+            $newFilename = upload_image($_FILES['profile_image'], 'profiles');
+            if ($newFilename) {
+                $profileImage = $newFilename;
             } else {
-                $errors[] = $uploadResult['error'];
+                $errors[] = 'Failed to upload profile image.';
             }
         }
         

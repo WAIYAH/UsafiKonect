@@ -6,7 +6,7 @@
 
 $current_page = basename($_SERVER['PHP_SELF']);
 $user_role = get_user_role();
-$user_data = get_current_user();
+$user_data = get_current_user_data();
 $notification_count = get_unread_notification_count(get_user_id());
 
 // Sidebar menu items per role
@@ -14,9 +14,10 @@ $sidebar_items = [];
 
 if ($user_role === 'customer') {
     $sidebar_items = [
+        ['icon' => 'fa-home', 'label' => 'Home', 'url' => 'index.php'],
         ['icon' => 'fa-tachometer-alt', 'label' => 'Dashboard', 'url' => 'customer/dashboard.php'],
         ['icon' => 'fa-search', 'label' => 'Find Providers', 'url' => 'customer/providers.php'],
-        ['icon' => 'fa-plus-circle', 'label' => 'New Booking', 'url' => 'customer/new-booking.php'],
+        ['icon' => 'fa-plus-circle', 'label' => 'New Booking', 'url' => 'customer/book.php'],
         ['icon' => 'fa-clipboard-list', 'label' => 'My Bookings', 'url' => 'customer/bookings.php'],
         ['icon' => 'fa-wallet', 'label' => 'Wallet', 'url' => 'customer/wallet.php'],
         ['icon' => 'fa-gift', 'label' => 'Loyalty Points', 'url' => 'customer/loyalty.php'],
@@ -25,6 +26,7 @@ if ($user_role === 'customer') {
     ];
 } elseif ($user_role === 'provider') {
     $sidebar_items = [
+        ['icon' => 'fa-home', 'label' => 'Home', 'url' => 'index.php'],
         ['icon' => 'fa-tachometer-alt', 'label' => 'Dashboard', 'url' => 'provider/dashboard.php'],
         ['icon' => 'fa-clipboard-list', 'label' => 'Bookings', 'url' => 'provider/bookings.php'],
         ['icon' => 'fa-money-bill-wave', 'label' => 'Earnings', 'url' => 'provider/earnings.php'],
@@ -37,12 +39,14 @@ if ($user_role === 'customer') {
     ];
 } elseif ($user_role === 'admin') {
     $sidebar_items = [
+        ['icon' => 'fa-home', 'label' => 'Home', 'url' => 'index.php'],
         ['icon' => 'fa-tachometer-alt', 'label' => 'Dashboard', 'url' => 'admin/dashboard.php'],
         ['icon' => 'fa-users', 'label' => 'Users', 'url' => 'admin/users.php'],
         ['icon' => 'fa-store', 'label' => 'Providers', 'url' => 'admin/providers.php'],
         ['icon' => 'fa-clipboard-list', 'label' => 'Bookings', 'url' => 'admin/bookings.php'],
         ['icon' => 'fa-crown', 'label' => 'Subscriptions', 'url' => 'admin/subscriptions.php'],
         ['icon' => 'fa-chart-bar', 'label' => 'Reports', 'url' => 'admin/reports.php'],
+        ['icon' => 'fa-headset', 'label' => 'Support', 'url' => 'admin/support.php'],
         ['icon' => 'fa-bell', 'label' => 'Notifications', 'url' => 'admin/notifications.php', 'badge' => $notification_count],
         ['icon' => 'fa-cog', 'label' => 'Settings', 'url' => 'admin/settings.php'],
     ];
