@@ -71,7 +71,7 @@ if ($typeFilter) { $where .= " AND type = ?"; $params[] = $typeFilter; }
 $countStmt = $db->prepare("SELECT COUNT(*) FROM notifications $where");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("
     SELECT * FROM notifications $where
@@ -195,7 +195,7 @@ include __DIR__ . '/../includes/sidebar.php';
 
     <?php if ($pagination['total_pages'] > 1): ?>
     <div class="mt-6">
-        <?= render_pagination($page, $pagination['total_pages'], '?' . ($typeFilter ? "type=$typeFilter&" : '')) ?>
+        <?= render_pagination($pagination, '?' . ($typeFilter ? "type=$typeFilter&" : '')) ?>
     </div>
     <?php endif; ?>
     <?php endif; ?>

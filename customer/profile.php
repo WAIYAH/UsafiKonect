@@ -103,8 +103,8 @@ include __DIR__ . '/../includes/sidebar.php';
         <!-- Profile Card -->
         <div class="bg-white rounded-2xl shadow-md p-6 text-center">
             <div class="w-24 h-24 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center text-4xl font-bold mx-auto mb-4">
-                <?php if ($user['profile_image']): ?>
-                    <img src="<?= APP_URL . '/' . e($user['profile_image']) ?>" alt="Profile" class="w-full h-full rounded-full object-cover">
+                <?php if ($user['profile_image'] && $user['profile_image'] !== 'avatar.png'): ?>
+                    <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($user['profile_image']) ?>" alt="Profile" class="w-full h-full rounded-full object-cover">
                 <?php else: ?>
                     <?= mb_substr($user['full_name'], 0, 1) ?>
                 <?php endif; ?>

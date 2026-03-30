@@ -69,7 +69,7 @@ $notification_count = $is_auth ? get_unread_notification_count(get_user_id()) : 
                     <!-- User Dropdown -->
                     <div class="relative" id="userDropdown">
                         <button class="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="document.getElementById('dropdownMenu').classList.toggle('hidden')">
-                            <img src="<?= APP_URL ?>/assets/uploads/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
+                            <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
                             <span class="text-sm font-medium text-gray-700 dark:text-gray-200"><?= e($user_data['full_name'] ?? 'User') ?></span>
                             <i class="fas fa-chevron-down text-xs text-gray-400"></i>
                         </button>
@@ -119,7 +119,7 @@ $notification_count = $is_auth ? get_unread_notification_count(get_user_id()) : 
                 <a href="<?= APP_URL ?>/auth/register.php" class="block w-full text-center py-2.5 bg-orange-500 text-white rounded-lg font-medium hover:bg-orange-600">Get Started</a>
             <?php else: ?>
                 <div class="flex items-center space-x-3 pb-3 border-b dark:border-gray-700">
-                    <img src="<?= APP_URL ?>/assets/uploads/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
+                    <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
                     <div>
                         <p class="font-medium text-gray-900 dark:text-white"><?= e($user_data['full_name'] ?? '') ?></p>
                         <p class="text-xs text-gray-500 capitalize"><?= e($user_role) ?></p>

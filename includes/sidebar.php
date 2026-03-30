@@ -58,7 +58,7 @@ if ($user_role === 'customer') {
     <!-- User Info -->
     <div class="p-4 border-b dark:border-gray-700">
         <div class="flex items-center space-x-3">
-            <img src="<?= APP_URL ?>/assets/uploads/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
+            <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($user_data['profile_image'] ?? 'avatar.png') ?>" alt="Profile" class="w-10 h-10 rounded-full object-cover border-2 border-orange-300" onerror="this.src='<?= APP_URL ?>/assets/images/avatar.png'">
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-semibold text-gray-900 dark:text-white truncate"><?= e($user_data['full_name'] ?? 'User') ?></p>
                 <p class="text-xs text-orange-500 capitalize"><?= e($user_role) ?></p>

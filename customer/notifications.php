@@ -31,9 +31,10 @@ if (isset($_GET['read'])) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ?");
 $countStmt->execute([$userId]);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($total, 20);
+$page = max(1, (int)($_GET['page'] ?? 1));
+$pagination = paginate($total, 20, $page);
 
-$stmt = $db->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT {$pagination['limit']} OFFSET {$pagination['offset']}");
+$stmt = $db->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY created_at DESC LIMIT {$pagination['per_page']} OFFSET {$pagination['offset']}");
 $stmt->execute([$userId]);
 $notifications = $stmt->fetchAll();
 

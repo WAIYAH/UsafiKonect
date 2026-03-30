@@ -37,7 +37,7 @@ if ($ratingFilter) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM ratings r $where");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("
     SELECT r.*, u.full_name as customer_name, u.profile_image as customer_image, b.booking_number, b.service_type
@@ -148,7 +148,7 @@ include __DIR__ . '/../includes/sidebar.php';
     
     <?php if ($pagination['total_pages'] > 1): ?>
     <div class="mt-6">
-        <?= render_pagination($page, $pagination['total_pages'], '?' . ($ratingFilter ? "rating=$ratingFilter&" : '')) ?>
+        <?= render_pagination($pagination, '?' . ($ratingFilter ? "rating=$ratingFilter&" : '')) ?>
     </div>
     <?php endif; ?>
     <?php endif; ?>

@@ -53,7 +53,7 @@ if ($search) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM users $where");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("
     SELECT u.*, pd.business_name, pd.is_approved,
@@ -181,7 +181,7 @@ include __DIR__ . '/../includes/sidebar.php';
         
         <?php if ($pagination['total_pages'] > 1): ?>
         <div class="px-6 py-4 border-t border-gray-100">
-            <?= render_pagination($page, $pagination['total_pages'], '?' . http_build_query(array_filter(['role' => $role, 'search' => $search])) . '&') ?>
+            <?= render_pagination($pagination, '?' . http_build_query(array_filter(['role' => $role, 'search' => $search])) . '&') ?>
         </div>
         <?php endif; ?>
     </div>

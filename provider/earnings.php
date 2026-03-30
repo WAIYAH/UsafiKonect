@@ -36,7 +36,7 @@ $per_page = 15;
 $countStmt = $db->prepare("SELECT COUNT(*) FROM wallet_transactions WHERE user_id = ?");
 $countStmt->execute([$userId]);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page_num, $total, $per_page);
+$pagination = paginate($total, $per_page, $page_num);
 
 $txStmt = $db->prepare("SELECT * FROM wallet_transactions WHERE user_id = ? ORDER BY created_at DESC LIMIT {$pagination['offset']}, {$pagination['per_page']}");
 $txStmt->execute([$userId]);
@@ -166,7 +166,7 @@ include __DIR__ . '/../includes/sidebar.php';
         </div>
         <?php if ($pagination['total_pages'] > 1): ?>
         <div class="px-6 py-4 border-t border-gray-100">
-            <?= render_pagination($page_num, $pagination['total_pages'], '?') ?>
+            <?= render_pagination($pagination, '?') ?>
         </div>
         <?php endif; ?>
         <?php endif; ?>

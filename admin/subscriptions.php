@@ -49,7 +49,7 @@ if ($search) { $where .= " AND (u.full_name LIKE ? OR u.email LIKE ?)"; $params[
 $countStmt = $db->prepare("SELECT COUNT(*) FROM subscriptions s JOIN users u ON s.user_id = u.id $where");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("
     SELECT s.*, u.full_name, u.email, u.phone, u.role
@@ -210,7 +210,7 @@ include __DIR__ . '/../includes/sidebar.php';
 
     <?php if ($pagination['total_pages'] > 1): ?>
     <div class="mt-6">
-        <?= render_pagination($page, $pagination['total_pages'], '?' . http_build_query(array_filter(['plan' => $planFilter, 'status' => $statusFilter, 'search' => $search])) . '&') ?>
+        <?= render_pagination($pagination, '?' . http_build_query(array_filter(['plan' => $planFilter, 'status' => $statusFilter, 'search' => $search])) . '&') ?>
     </div>
     <?php endif; ?>
     <?php endif; ?>

@@ -59,7 +59,7 @@ if ($statusFilter) { $where .= " AND t.status = ?"; $params[] = $statusFilter; }
 $countStmt = $db->prepare("SELECT COUNT(*) FROM support_tickets t $where");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("
     SELECT t.*, u.full_name, u.email as user_email 
@@ -164,7 +164,7 @@ include __DIR__ . '/../includes/sidebar.php';
     
     <?php if ($pagination['total_pages'] > 1): ?>
     <div class="mt-6">
-        <?= render_pagination($page, $pagination['total_pages'], '?' . ($statusFilter ? "status=$statusFilter&" : '')) ?>
+        <?= render_pagination($pagination, '?' . ($statusFilter ? "status=$statusFilter&" : '')) ?>
     </div>
     <?php endif; ?>
     <?php endif; ?>

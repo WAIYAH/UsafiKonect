@@ -34,7 +34,8 @@ if ($search) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM bookings b JOIN users u ON b.provider_id = u.id WHERE {$where}");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($total);
+$page = max(1, (int)($_GET['page'] ?? 1));
+$pagination = paginate($total, 10, $page);
 
 // Fetch
 $stmt = $db->prepare("
@@ -44,7 +45,7 @@ $stmt = $db->prepare("
     LEFT JOIN provider_details pd ON u.id = pd.user_id
     WHERE {$where}
     ORDER BY b.created_at DESC 
-    LIMIT {$pagination['limit']} OFFSET {$pagination['offset']}
+    LIMIT {$pagination['per_page']} OFFSET {$pagination['offset']}
 ");
 $stmt->execute($params);
 $bookings = $stmt->fetchAll();

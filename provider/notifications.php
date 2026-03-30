@@ -35,7 +35,7 @@ $unread = get_unread_notification_count($userId);
 $countStmt = $db->prepare("SELECT COUNT(*) FROM notifications WHERE user_id = ?");
 $countStmt->execute([$userId]);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("SELECT * FROM notifications WHERE user_id = ? ORDER BY is_read ASC, created_at DESC LIMIT {$pagination['offset']}, {$pagination['per_page']}");
 $stmt->execute([$userId]);
@@ -107,7 +107,7 @@ $typeConfig = [
     
     <?php if ($pagination['total_pages'] > 1): ?>
     <div class="mt-6">
-        <?= render_pagination($page, $pagination['total_pages'], '?') ?>
+        <?= render_pagination($pagination, '?') ?>
     </div>
     <?php endif; ?>
     <?php endif; ?>

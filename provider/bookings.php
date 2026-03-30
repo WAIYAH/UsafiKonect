@@ -34,7 +34,7 @@ $countSql = "SELECT COUNT(*) FROM bookings b JOIN users u ON b.customer_id = u.i
 $countStmt = $db->prepare($countSql);
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $sql = "SELECT b.*, u.full_name as customer_name, u.phone as customer_phone, u.estate as customer_estate,
         (SELECT ROUND(AVG(rating),1) FROM ratings WHERE booking_id = b.id) as booking_rating
@@ -165,7 +165,7 @@ include __DIR__ . '/../includes/sidebar.php';
     
     <?php if ($pagination['total_pages'] > 1): ?>
     <div class="mt-6">
-        <?= render_pagination($page, $pagination['total_pages'], '?' . http_build_query(array_filter(['status' => $status, 'search' => $search])) . '&') ?>
+        <?= render_pagination($pagination, '?' . http_build_query(array_filter(['status' => $status, 'search' => $search])) . '&') ?>
     </div>
     <?php endif; ?>
     <?php endif; ?>

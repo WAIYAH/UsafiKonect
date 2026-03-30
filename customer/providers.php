@@ -55,7 +55,8 @@ $orderBy = match ($sort) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM users u JOIN provider_details pd ON u.id = pd.user_id WHERE {$where}");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($total, 12);
+$page = max(1, (int)($_GET['page'] ?? 1));
+$pagination = paginate($total, 12, $page);
 
 // Fetch providers
 $stmt = $db->prepare("
@@ -68,7 +69,7 @@ $stmt = $db->prepare("
     JOIN provider_details pd ON u.id = pd.user_id 
     WHERE {$where}
     ORDER BY {$orderBy}
-    LIMIT {$pagination['limit']} OFFSET {$pagination['offset']}
+    LIMIT {$pagination['per_page']} OFFSET {$pagination['offset']}
 ");
 $stmt->execute($params);
 $providers = $stmt->fetchAll();

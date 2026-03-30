@@ -28,7 +28,7 @@ if ($search) {
 $countStmt = $db->prepare("SELECT COUNT(*) FROM bookings b JOIN users c ON b.customer_id = c.id JOIN users p ON b.provider_id = p.id $where");
 $countStmt->execute($params);
 $total = $countStmt->fetchColumn();
-$pagination = paginate($page, $total, $per_page);
+$pagination = paginate($total, $per_page, $page);
 
 $stmt = $db->prepare("
     SELECT b.*, c.full_name as customer_name, c.estate as customer_estate, p.full_name as provider_name,
@@ -126,7 +126,7 @@ include __DIR__ . '/../includes/sidebar.php';
         
         <?php if ($pagination['total_pages'] > 1): ?>
         <div class="px-6 py-4 border-t border-gray-100">
-            <?= render_pagination($page, $pagination['total_pages'], '?' . http_build_query(array_filter(['status' => $status, 'payment' => $payment, 'search' => $search])) . '&') ?>
+            <?= render_pagination($pagination, '?' . http_build_query(array_filter(['status' => $status, 'payment' => $payment, 'search' => $search])) . '&') ?>
         </div>
         <?php endif; ?>
     </div>
