@@ -419,7 +419,3 @@ FodyWeavers.xsd
 
 # Composer dependencies
 vendor/
-
-# Plan/draft files
-Phase*.md
-Phase*.MD
