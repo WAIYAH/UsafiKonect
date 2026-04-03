@@ -39,7 +39,8 @@ function mpesa_get_access_token(): string|false {
     curl_setopt_array($ch, [
         CURLOPT_HTTPHEADER => ['Authorization: Basic ' . $credentials],
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYPEER => !APP_DEBUG,
+        CURLOPT_SSL_VERIFYHOST => APP_DEBUG ? 0 : 2,
         CURLOPT_TIMEOUT => 30,
     ]);
     
@@ -125,7 +126,8 @@ function mpesa_stk_push(string $phone, float $amount, string $reference, string 
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => json_encode($payload),
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYPEER => !APP_DEBUG,
+        CURLOPT_SSL_VERIFYHOST => APP_DEBUG ? 0 : 2,
         CURLOPT_TIMEOUT => 30,
     ]);
     

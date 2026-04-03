@@ -36,19 +36,31 @@ $existingRating = $existingRating->fetch();
 
 // Handle cancel
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
-    if (validate_csrf_token() && in_array($booking['status'], ['pending', 'confirmed'])) {
-        $stmt = $db->prepare("UPDATE bookings SET status = 'cancelled' WHERE id = ?");
-        $stmt->execute([$bookingId]);
+    if (validate_csrf_token()) {
+        // Re-query with lock to prevent race condition
+        $db->beginTransaction();
+        $lockStmt = $db->prepare("SELECT id, status, payment_status, total_amount, booking_number FROM bookings WHERE id = ? AND customer_id = ? FOR UPDATE");
+        $lockStmt->execute([$bookingId, $userId]);
+        $fresh = $lockStmt->fetch();
         
-        // Refund if paid
-        if ($booking['payment_status'] === 'paid') {
-            add_wallet_transaction($userId, 'refund', $booking['total_amount'], "Refund for cancelled booking #{$booking['booking_number']}");
-            $stmt = $db->prepare("UPDATE bookings SET payment_status = 'refunded' WHERE id = ?");
+        if ($fresh && in_array($fresh['status'], ['pending', 'confirmed'])) {
+            $stmt = $db->prepare("UPDATE bookings SET status = 'cancelled', cancelled_by = 'customer' WHERE id = ?");
             $stmt->execute([$bookingId]);
+            
+            // Refund if paid
+            if ($fresh['payment_status'] === 'paid') {
+                add_wallet_transaction($userId, 'refund', $fresh['total_amount'], "Refund for cancelled booking #{$fresh['booking_number']}");
+                $stmt = $db->prepare("UPDATE bookings SET payment_status = 'refunded' WHERE id = ?");
+                $stmt->execute([$bookingId]);
+            }
+            
+            $db->commit();
+            create_notification($booking['provider_id'], 'booking', "Booking #{$fresh['booking_number']} has been cancelled by the customer.", APP_URL . '/provider/bookings.php');
+            set_flash('success', 'Booking cancelled successfully.' . ($fresh['payment_status'] === 'paid' ? ' Refund added to wallet.' : ''));
+        } else {
+            $db->rollBack();
+            set_flash('error', 'This booking can no longer be cancelled.');
         }
-        
-        create_notification($booking['provider_id'], 'booking', "Booking #{$booking['booking_number']} has been cancelled by the customer.", APP_URL . '/provider/bookings.php');
-        set_flash('success', 'Booking cancelled successfully.' . ($booking['payment_status'] === 'paid' ? ' Refund added to wallet.' : ''));
         redirect(APP_URL . '/customer/booking-detail.php?id=' . $bookingId);
     }
 }
@@ -105,19 +117,21 @@ include __DIR__ . '/../includes/sidebar.php';
                 
                 <!-- Status Timeline -->
                 <?php if ($booking['status'] !== 'cancelled'): ?>
-                <div class="flex items-center justify-between mb-2">
+                <div class="overflow-x-auto -mx-4 px-4">
+                <div class="flex items-center justify-between mb-2 min-w-[480px]">
                     <?php foreach ($statusFlow as $i => $s): ?>
                     <div class="flex flex-col items-center flex-1 <?= $i <= $currentIndex ? 'text-orange-500' : 'text-gray-300' ?>">
                         <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold <?= $i <= $currentIndex ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500' ?> <?= $i === $currentIndex ? 'ring-4 ring-orange-200' : '' ?>">
                             <?php if ($i < $currentIndex): ?><i class="fas fa-check text-xs"></i>
                             <?php else: echo $i + 1; endif; ?>
                         </div>
-                        <span class="text-xs mt-1 capitalize hidden sm:block"><?= $s ?></span>
+                        <span class="text-xs mt-1 capitalize text-center w-16"><?= $s ?></span>
                     </div>
                     <?php if ($i < count($statusFlow) - 1): ?>
                     <div class="flex-1 h-0.5 <?= $i < $currentIndex ? 'bg-orange-500' : 'bg-gray-200' ?> mx-1"></div>
                     <?php endif; ?>
                     <?php endforeach; ?>
+                </div>
                 </div>
                 <?php else: ?>
                 <div class="bg-red-50 text-red-700 rounded-lg p-4 text-center">
@@ -233,17 +247,22 @@ include __DIR__ . '/../includes/sidebar.php';
             </div>
             
             <!-- Actions -->
-            <?php if (in_array($booking['status'], ['pending', 'confirmed'])): ?>
             <div class="bg-white rounded-2xl shadow-md p-6">
                 <h3 class="font-bold text-gray-800 mb-4"><i class="fas fa-cog text-gray-400 mr-2"></i>Actions</h3>
-                <form method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?')">
-                    <?= csrf_field() ?>
-                    <button type="submit" name="cancel_booking" class="w-full py-2.5 bg-red-50 text-red-600 border border-red-200 font-semibold rounded-lg hover:bg-red-100 transition-colors text-sm">
-                        <i class="fas fa-times mr-1"></i> Cancel Booking
-                    </button>
-                </form>
+                <div class="space-y-3">
+                    <?php if (in_array($booking['status'], ['pending', 'confirmed'])): ?>
+                    <form method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?')">
+                        <?= csrf_field() ?>
+                        <button type="submit" name="cancel_booking" class="w-full py-2.5 bg-red-50 text-red-600 border border-red-200 font-semibold rounded-lg hover:bg-red-100 transition-colors text-sm">
+                            <i class="fas fa-times mr-1"></i> Cancel Booking
+                        </button>
+                    </form>
+                    <?php endif; ?>
+                    <a href="<?= APP_URL ?>/contact.php?subject=Issue+with+Booking+%23<?= urlencode($booking['booking_number']) ?>" class="block w-full py-2.5 bg-gray-50 text-gray-600 border border-gray-200 font-semibold rounded-lg hover:bg-gray-100 transition-colors text-sm text-center">
+                        <i class="fas fa-flag mr-1"></i> Report Issue
+                    </a>
+                </div>
             </div>
-            <?php endif; ?>
         </div>
     </div>
 </main>

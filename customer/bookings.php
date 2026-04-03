@@ -60,7 +60,7 @@ include __DIR__ . '/../includes/sidebar.php';
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
         <div>
             <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-list-alt text-orange-500 mr-2"></i>My Bookings</h1>
-            <p class="text-gray-500 text-sm mt-1"><?= $total ?> total booking<?= $total !== 1 ? 's' : '' ?></p>
+            <p class="text-gray-500 text-sm mt-1"><?= $total ?> total booking<?= (int)$total !== 1 ? 's' : '' ?></p>
         </div>
         <a href="<?= APP_URL ?>/customer/book.php" class="inline-flex items-center px-5 py-2.5 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-md text-sm">
             <i class="fas fa-plus mr-2"></i> New Booking

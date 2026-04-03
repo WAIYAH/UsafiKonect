@@ -269,7 +269,16 @@ INSERT INTO `site_settings` (`setting_key`, `setting_value`) VALUES
 ('smtp_username', 'your-email@gmail.com'),
 ('smtp_password', 'your-app-password'),
 ('maintenance_mode', '0'),
-('maintenance_message', 'We are currently performing scheduled maintenance. Please check back soon.');
+('maintenance_message', 'We are currently performing scheduled maintenance. Please check back soon.'),
+('sub_price_weekly', '500'),
+('sub_price_monthly', '1800'),
+('sub_price_yearly', '18000'),
+('loyalty_points_per_booking', '10'),
+('free_booking_threshold', '100'),
+('social_facebook', '#'),
+('social_twitter', '#'),
+('social_whatsapp', '#'),
+('social_instagram', '#');
 
 -- =====================================================
 -- Users: Admin (password: Admin@123)

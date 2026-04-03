@@ -20,17 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'contact_address' => sanitize_input($_POST['contact_address'] ?? ''),
         'mpesa_env' => sanitize_input($_POST['mpesa_env'] ?? 'sandbox'),
         'mpesa_consumer_key' => sanitize_input($_POST['mpesa_consumer_key'] ?? ''),
-        'mpesa_consumer_secret' => sanitize_input($_POST['mpesa_consumer_secret'] ?? ''),
         'mpesa_shortcode' => sanitize_input($_POST['mpesa_shortcode'] ?? ''),
-        'mpesa_passkey' => sanitize_input($_POST['mpesa_passkey'] ?? ''),
         'smtp_host' => sanitize_input($_POST['smtp_host'] ?? ''),
         'smtp_email' => sanitize_input($_POST['smtp_email'] ?? ''),
-        'smtp_password' => $_POST['smtp_password'] ?? '',
         'maintenance_mode' => isset($_POST['maintenance_mode']) ? '1' : '0',
         'loyalty_points_per_booking' => sanitize_input($_POST['loyalty_points_per_booking'] ?? '10'),
         'free_booking_threshold' => sanitize_input($_POST['free_booking_threshold'] ?? '100'),
         'max_booking_weight' => sanitize_input($_POST['max_booking_weight'] ?? '50'),
     ];
+    
+    // Only update sensitive fields if non-empty (leave blank to keep current)
+    $sensitiveFields = ['mpesa_consumer_secret', 'mpesa_passkey', 'smtp_password'];
+    foreach ($sensitiveFields as $field) {
+        $val = $_POST[$field] ?? '';
+        if (!empty($val)) {
+            $settings[$field] = $field === 'smtp_password' ? $val : sanitize_input($val);
+        }
+    }
     
     foreach ($settings as $key => $value) {
         update_setting($key, $value);
@@ -121,12 +127,12 @@ include __DIR__ . '/../includes/sidebar.php';
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Consumer Secret</label>
-                    <input type="password" name="mpesa_consumer_secret" value="<?= e($allSettings['mpesa_consumer_secret'] ?? '') ?>"
+                    <input type="password" name="mpesa_consumer_secret" placeholder="(leave blank to keep current)" value=""
                            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100">
                 </div>
                 <div class="sm:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Passkey</label>
-                    <input type="password" name="mpesa_passkey" value="<?= e($allSettings['mpesa_passkey'] ?? '') ?>"
+                    <input type="password" name="mpesa_passkey" placeholder="(leave blank to keep current)" value=""
                            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100">
                 </div>
             </div>
@@ -148,7 +154,7 @@ include __DIR__ . '/../includes/sidebar.php';
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">SMTP Password</label>
-                    <input type="password" name="smtp_password" value="<?= e($allSettings['smtp_password'] ?? '') ?>"
+                    <input type="password" name="smtp_password" placeholder="(leave blank to keep current)" value=""
                            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100">
                 </div>
             </div>

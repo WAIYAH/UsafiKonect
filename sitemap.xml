@@ -37,25 +37,25 @@
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>http://localhost/usafikonect/legal/terms.php</loc>
+        <loc>http://localhost/usafikonect/terms.php</loc>
         <lastmod>2026-03-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>http://localhost/usafikonect/legal/privacy.php</loc>
+        <loc>http://localhost/usafikonect/privacy.php</loc>
         <lastmod>2026-03-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>http://localhost/usafikonect/legal/cookies.php</loc>
+        <loc>http://localhost/usafikonect/cookies.php</loc>
         <lastmod>2026-03-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>http://localhost/usafikonect/legal/refund.php</loc>
+        <loc>http://localhost/usafikonect/refund.php</loc>
         <lastmod>2026-03-30</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>

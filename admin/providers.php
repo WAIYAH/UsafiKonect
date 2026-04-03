@@ -129,7 +129,7 @@ include __DIR__ . '/../includes/sidebar.php';
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-lg font-bold text-orange-600 flex-shrink-0 overflow-hidden">
                         <?php if ($p['profile_image']): ?>
-                        <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($p['profile_image']) ?>" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentElement.textContent='<?= strtoupper(substr($p['full_name'], 0, 1)) ?>'">
+                        <img src="<?= APP_URL ?>/assets/uploads/profiles/<?= e($p['profile_image']) ?>" class="w-full h-full object-cover" onerror="this.style.display='none';this.parentElement.textContent='<?= htmlspecialchars(strtoupper(substr($p['full_name'], 0, 1)), ENT_QUOTES, 'UTF-8') ?>'">
                         <?php else: ?>
                         <?= strtoupper(substr($p['full_name'], 0, 1)) ?>
                         <?php endif; ?>

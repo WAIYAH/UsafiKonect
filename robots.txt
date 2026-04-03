@@ -9,7 +9,8 @@ Disallow: /logs/
 Disallow: /vendor/
 Disallow: /api/
 Disallow: /admin/
+Disallow: /auth/
 Disallow: /assets/uploads/
 
-# Sitemap
+# Sitemap (update URL for production)
 Sitemap: http://localhost/usafikonect/sitemap.xml

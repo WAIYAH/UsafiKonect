@@ -66,7 +66,7 @@ try {
     $update->execute([$newStatus, $bookingId]);
     
     // Notifications
-    $providerName = $_SESSION['full_name'];
+    $providerName = $_SESSION['user_data']['full_name'] ?? 'Your Provider';
     $bn = $booking['booking_number'];
     
     switch ($newStatus) {
@@ -84,8 +84,11 @@ try {
             
             // Refund if paid
             if ($booking['payment_status'] === 'paid') {
-                add_wallet_transaction($booking['customer_id'], 'refund', $booking['total_amount'], 
+                $refunded = add_wallet_transaction($booking['customer_id'], 'refund', $booking['total_amount'], 
                     "Refund for declined booking #$bn");
+                if (!$refunded) {
+                    throw new Exception('Wallet refund failed for booking #' . $bn);
+                }
                 $refundStmt = $db->prepare("UPDATE bookings SET payment_status = 'refunded' WHERE id = ?");
                 $refundStmt->execute([$bookingId]);
             }
@@ -116,7 +119,8 @@ try {
                 APP_URL . '/customer/booking-detail.php?id=' . $bookingId);
             
             // Award loyalty points
-            update_loyalty_points($booking['customer_id'], 5, 'Points for completed booking #' . $bn);
+            $pointsPerBooking = (int)get_setting('loyalty_points_per_booking', 10);
+            update_loyalty_points($booking['customer_id'], $pointsPerBooking, 'Points for completed booking #' . $bn);
             $flashMsg = 'Booking marked as delivered! Customer has been notified.';
             break;
     }

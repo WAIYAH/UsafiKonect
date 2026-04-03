@@ -128,6 +128,7 @@ $notification_count = $is_auth ? get_unread_notification_count(get_user_id()) : 
                 <a href="<?= APP_URL ?>/<?= $user_role ?>/dashboard.php" class="mobile-nav-link"><i class="fas fa-tachometer-alt w-6"></i> Dashboard</a>
                 <?php if ($user_role === 'customer'): ?>
                     <a href="<?= APP_URL ?>/index.php" class="mobile-nav-link"><i class="fas fa-home w-6"></i> Home</a>
+                    <a href="<?= APP_URL ?>/customer/book.php" class="mobile-nav-link"><i class="fas fa-plus-circle w-6"></i> New Booking</a>
                     <a href="<?= APP_URL ?>/customer/providers.php" class="mobile-nav-link"><i class="fas fa-search w-6"></i> Find Providers</a>
                     <a href="<?= APP_URL ?>/customer/bookings.php" class="mobile-nav-link"><i class="fas fa-clipboard-list w-6"></i> My Bookings</a>
                     <a href="<?= APP_URL ?>/customer/wallet.php" class="mobile-nav-link"><i class="fas fa-wallet w-6"></i> Wallet</a>

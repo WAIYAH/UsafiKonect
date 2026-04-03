@@ -56,6 +56,10 @@ $canonical_url = APP_URL . $_SERVER['REQUEST_URI'];
     <!-- CSRF Meta Tag -->
     <meta name="csrf-token" content="<?= generate_csrf_token() ?>">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?= APP_URL ?>/assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="<?= APP_URL ?>/assets/images/favicon-180.png">
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>

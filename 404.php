@@ -1,3 +1,4 @@
+<?php http_response_code(404); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +15,10 @@
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h2>
         <p class="text-gray-600 mb-8">Looks like this page went missing — just like that one sock. Let's get you back on track!</p>
         <div class="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="/" class="px-6 py-3 bg-orange-500 text-white font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-md">
+            <a href="/usafikonect/" class="px-6 py-3 bg-orange-500 text-white font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-md">
                 <i class="fas fa-home mr-2"></i> Go Home
             </a>
-            <a href="/contact.php" class="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-all">
+            <a href="/usafikonect/contact.php" class="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-all">
                 <i class="fas fa-headset mr-2"></i> Contact Support
             </a>
         </div>

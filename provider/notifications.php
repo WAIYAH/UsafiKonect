@@ -10,11 +10,13 @@ require_role('provider');
 $db = getDB();
 $userId = get_user_id();
 
-// Mark single as read
-if (isset($_GET['mark_read'])) {
-    $nid = (int)$_GET['mark_read'];
-    $upd = $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?");
-    $upd->execute([$nid, $userId]);
+// Mark single as read (POST only)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_read'])) {
+    if (validate_csrf_token()) {
+        $nid = (int)$_POST['mark_read'];
+        $upd = $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?");
+        $upd->execute([$nid, $userId]);
+    }
     header('Location: ' . APP_URL . '/provider/notifications.php');
     exit;
 }
@@ -94,7 +96,7 @@ $typeConfig = [
                 <div class="flex items-center gap-3 mt-1">
                     <span class="text-xs text-gray-400"><?= time_ago($n['created_at']) ?></span>
                     <?php if (!$n['is_read']): ?>
-                    <a href="?mark_read=<?= $n['id'] ?>" class="text-xs text-orange-500 hover:underline">Mark read</a>
+                    <form method="POST" class="inline"><?= csrf_field() ?><input type="hidden" name="mark_read" value="<?= $n['id'] ?>"><button type="submit" class="text-xs text-orange-500 hover:underline">Mark read</button></form>
                     <?php endif; ?>
                     <?php if ($n['link']): ?>
                     <a href="<?= e($n['link']) ?>" class="text-xs text-blue-500 hover:underline">View</a>

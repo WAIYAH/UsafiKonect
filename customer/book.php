@@ -261,7 +261,7 @@ include __DIR__ . '/../includes/sidebar.php';
                 
                 <?php if (has_free_booking($userId)): ?>
                 <div class="mt-4 bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-3">
-                    <input type="checkbox" name="use_free" id="use_free" class="text-green-500 focus:ring-green-500 rounded">
+                    <input type="checkbox" name="use_free" id="use_free" class="text-green-500 focus:ring-green-500 rounded" <?= isset($_GET['free']) ? 'checked' : '' ?>>
                     <label for="use_free" class="text-sm text-green-700 cursor-pointer">
                         <strong><i class="fas fa-gift mr-1"></i>Use your FREE booking reward!</strong> You've earned a complimentary wash.
                     </label>

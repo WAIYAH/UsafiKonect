@@ -17,7 +17,7 @@ if (!is_logged_in()) {
 
 $db = getDB();
 $userId = get_user_id();
-$action = sanitize_input($_GET['action'] ?? '');
+$action = sanitize_input($_GET['action'] ?? $_POST['action'] ?? '');
 
 switch ($action) {
     case 'count':
@@ -39,8 +39,7 @@ switch ($action) {
             echo json_encode(['error' => 'Method not allowed']);
             exit;
         }
-        $input = json_decode(file_get_contents('php://input'), true);
-        $nid = (int)($input['id'] ?? 0);
+        $nid = (int)($_POST['id'] ?? 0);
         if ($nid > 0) {
             $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?")->execute([$nid, $userId]);
             echo json_encode(['success' => true]);

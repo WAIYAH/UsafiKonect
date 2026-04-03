@@ -20,11 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_all_read'])) {
     }
 }
 
-// Mark single as read
-if (isset($_GET['read'])) {
-    $nid = (int)$_GET['read'];
-    $stmt = $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?");
-    $stmt->execute([$nid, $userId]);
+// Mark single as read (POST only)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mark_read'])) {
+    if (validate_csrf_token()) {
+        $nid = (int)$_POST['mark_read'];
+        $stmt = $db->prepare("UPDATE notifications SET is_read = 1 WHERE id = ? AND user_id = ?");
+        $stmt->execute([$nid, $userId]);
+    }
+    redirect(APP_URL . '/customer/notifications.php');
 }
 
 // Fetch
@@ -109,9 +112,14 @@ include __DIR__ . '/../includes/sidebar.php';
                 <p class="text-sm text-gray-600 mt-0.5"><?= e($n['message']) ?></p>
                 <div class="text-xs text-gray-400 mt-1"><?= time_ago($n['created_at']) ?></div>
             </div>
-            <?php if (!$n['is_read']): ?>
-            <a href="?read=<?= $n['id'] ?>" class="text-xs text-orange-500 hover:underline flex-shrink-0">Mark read</a>
-            <?php endif; ?>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <?php if (!empty($n['link'])): ?>
+                <a href="<?= e($n['link']) ?>" class="text-xs text-blue-500 hover:underline">View</a>
+                <?php endif; ?>
+                <?php if (!$n['is_read']): ?>
+                <form method="POST" class="inline"><?= csrf_field() ?><input type="hidden" name="mark_read" value="<?= $n['id'] ?>"><button type="submit" class="text-xs text-orange-500 hover:underline">Mark read</button></form>
+                <?php endif; ?>
+            </div>
         </div>
         <?php endforeach; ?>
     </div>

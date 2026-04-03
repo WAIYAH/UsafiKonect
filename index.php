@@ -158,7 +158,7 @@ include __DIR__ . '/includes/navbar.php';
                     <i class="fas fa-gift"></i>
                 </div>
                 <h3 class="font-bold text-gray-800 mb-2">Loyalty Rewards</h3>
-                <p class="text-sm text-gray-600">Earn points with every booking. 10 bookings = 1 free wash! Plus subscription discounts.</p>
+                <p class="text-sm text-gray-600">Earn points with every booking. 5 bookings = 1 free wash! Plus subscription discounts.</p>
             </div>
         </div>
     </div>
@@ -218,7 +218,7 @@ include __DIR__ . '/includes/navbar.php';
             <?php
             $services = [
                 ['icon' => 'fa-water', 'title' => 'Wash & Fold', 'desc' => 'Regular washing with folding. Per kg or per item pricing.', 'color' => 'orange', 'price' => 'From KES 50/kg'],
-                ['icon' => 'fa-iron', 'title' => 'Wash & Iron', 'desc' => 'Complete wash with professional ironing and packaging.', 'color' => 'blue', 'price' => 'From KES 80/kg'],
+                ['icon' => 'fa-shirt', 'title' => 'Wash & Iron', 'desc' => 'Complete wash with professional ironing and packaging.', 'color' => 'blue', 'price' => 'From KES 80/kg'],
                 ['icon' => 'fa-gem', 'title' => 'Dry Cleaning', 'desc' => 'Delicate fabrics, suits, curtains and special garments.', 'color' => 'purple', 'price' => 'From KES 200/item'],
                 ['icon' => 'fa-hand-sparkles', 'title' => 'Ironing Only', 'desc' => 'Professional pressing and steaming for crisp results.', 'color' => 'teal', 'price' => 'From KES 30/item'],
             ];
@@ -238,6 +238,7 @@ include __DIR__ . '/includes/navbar.php';
 </section>
 
 <!-- ==================== PRICING SECTION ==================== -->
+<?php $plans = get_subscription_plans(); ?>
 <section id="pricing" class="py-20 bg-gradient-to-br from-deepblue-900 to-deepblue-800 text-white">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16 section-title">
@@ -251,7 +252,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="stagger-item card-hover bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                 <h3 class="text-xl font-bold mb-2">Weekly Plan</h3>
                 <div class="flex items-end gap-1 mb-6">
-                    <span class="text-4xl font-extrabold">KES 500</span>
+                    <span class="text-4xl font-extrabold">KES <?= number_format($plans['weekly']['price']) ?></span>
                     <span class="text-gray-300 text-sm mb-1">/week</span>
                 </div>
                 <ul class="space-y-3 mb-8 text-sm text-gray-200">
@@ -272,7 +273,7 @@ include __DIR__ . '/includes/navbar.php';
                 </div>
                 <h3 class="text-xl font-bold mb-2">Monthly Plan</h3>
                 <div class="flex items-end gap-1 mb-6">
-                    <span class="text-4xl font-extrabold">KES 1,800</span>
+                    <span class="text-4xl font-extrabold">KES <?= number_format($plans['monthly']['price']) ?></span>
                     <span class="text-orange-100 text-sm mb-1">/month</span>
                 </div>
                 <ul class="space-y-3 mb-8 text-sm text-orange-50">
@@ -291,7 +292,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="stagger-item card-hover bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
                 <h3 class="text-xl font-bold mb-2">Yearly Plan</h3>
                 <div class="flex items-end gap-1 mb-6">
-                    <span class="text-4xl font-extrabold">KES 18,000</span>
+                    <span class="text-4xl font-extrabold">KES <?= number_format($plans['yearly']['price']) ?></span>
                     <span class="text-gray-300 text-sm mb-1">/year</span>
                 </div>
                 <div class="bg-green-500/20 text-green-300 text-xs font-bold px-3 py-1 rounded-full inline-block mb-4">Save KES 3,600/yr</div>

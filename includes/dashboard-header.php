@@ -34,7 +34,7 @@ if ($current_page === 'dashboard.php') {
     $greetHour = (int)date('G');
     $greeting = $greetHour < 12 ? 'Good morning' : ($greetHour < 17 ? 'Good afternoon' : 'Good evening');
     $firstName = explode(' ', $user_data['full_name'] ?? 'User')[0];
-    $header_title = $greeting . ', ' . e($firstName) . '!';
+    $header_title = $greeting . ', ' . $firstName . '!';
     $header_subtitle = 'Here\'s your overview for today';
 }
 ?>

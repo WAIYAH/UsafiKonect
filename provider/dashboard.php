@@ -85,7 +85,7 @@ include __DIR__ . '/../includes/sidebar.php';
     <?php endif; ?>
     
     <!-- Stats -->
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
         <div class="dash-card-orange text-white rounded-2xl p-5 shadow-lg">
             <i class="fas fa-calendar-alt text-xl opacity-80 mb-2"></i>
             <div class="text-2xl font-bold"><?= $totalBookings ?></div>

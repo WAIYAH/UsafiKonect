@@ -42,7 +42,7 @@ include __DIR__ . '/includes/navbar.php';
                         <?php
                         $services = [
                             ['Wash & Fold', 'Per kg', 'KES 50 - 150', '24 - 48 hrs', 'fa-water', 'orange'],
-                            ['Wash & Iron', 'Per kg', 'KES 80 - 200', '24 - 48 hrs', 'fa-iron', 'blue'],
+                            ['Wash & Iron', 'Per kg', 'KES 80 - 200', '24 - 48 hrs', 'fa-shirt', 'blue'],
                             ['Ironing Only', 'Per item', 'KES 20 - 50', '12 - 24 hrs', 'fa-hand-sparkles', 'teal'],
                             ['Dry Cleaning', 'Per item', 'KES 200 - 800', '48 - 72 hrs', 'fa-gem', 'purple'],
                             ['Curtains & Duvets', 'Per item', 'KES 300 - 1,000', '48 - 72 hrs', 'fa-bed', 'pink'],
@@ -70,6 +70,7 @@ include __DIR__ . '/includes/navbar.php';
 <!-- Subscription Plans (same as homepage) -->
 <section class="py-20 bg-gradient-to-br from-deepblue-900 to-deepblue-800 text-white">
     <div class="container mx-auto px-4">
+        <?php $plans = get_subscription_plans(); ?>
         <div class="text-center mb-16">
             <span class="text-orange-400 font-semibold text-sm uppercase tracking-wider">Save More</span>
             <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Subscription Plans</h2>
@@ -79,7 +80,7 @@ include __DIR__ . '/includes/navbar.php';
         <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 card-hover">
                 <h3 class="text-xl font-bold mb-2">Weekly</h3>
-                <div class="text-4xl font-extrabold mb-1">KES 500</div>
+                <div class="text-4xl font-extrabold mb-1">KES <?= number_format($plans['weekly']['price']) ?></div>
                 <div class="text-gray-300 text-sm mb-6">/week</div>
                 <ul class="space-y-2 text-sm text-gray-200 mb-8">
                     <li><i class="fas fa-check text-green-400 mr-2"></i>1 booking/week up to 5kg</li>
@@ -92,7 +93,7 @@ include __DIR__ . '/includes/navbar.php';
             <div class="bg-orange-500 rounded-2xl p-8 border-2 border-orange-400 relative md:-translate-y-4 shadow-2xl card-hover">
                 <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-yellow-900 px-3 py-0.5 rounded-full text-xs font-bold uppercase">Best Value</div>
                 <h3 class="text-xl font-bold mb-2">Monthly</h3>
-                <div class="text-4xl font-extrabold mb-1">KES 1,800</div>
+                <div class="text-4xl font-extrabold mb-1">KES <?= number_format($plans['monthly']['price']) ?></div>
                 <div class="text-orange-100 text-sm mb-6">/month</div>
                 <ul class="space-y-2 text-sm text-orange-50 mb-8">
                     <li><i class="fas fa-check text-yellow-300 mr-2"></i>4 bookings/month up to 8kg</li>
@@ -105,7 +106,7 @@ include __DIR__ . '/includes/navbar.php';
             
             <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 card-hover">
                 <h3 class="text-xl font-bold mb-2">Yearly</h3>
-                <div class="text-4xl font-extrabold mb-1">KES 18,000</div>
+                <div class="text-4xl font-extrabold mb-1">KES <?= number_format($plans['yearly']['price']) ?></div>
                 <div class="text-gray-300 text-sm mb-1">/year</div>
                 <div class="text-green-300 text-xs font-bold mb-6">Save KES 3,600</div>
                 <ul class="space-y-2 text-sm text-gray-200 mb-8">
@@ -162,4 +163,5 @@ function toggleFaq(i) {
 }
 </script>
 
+<script src="<?= APP_URL ?>/assets/js/gsap-init.js" defer></script>
 <?php include __DIR__ . '/includes/footer.php'; ?>

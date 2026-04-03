@@ -63,7 +63,7 @@ include __DIR__ . '/../includes/sidebar.php';
     <?= render_flash() ?>
     
     <!-- Earnings Cards -->
-    <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
         <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-100">
             <div class="text-xs text-gray-400 uppercase tracking-wider mb-1">Wallet Balance</div>
             <div class="text-xl font-bold text-green-600"><?= format_currency($walletBalance) ?></div>

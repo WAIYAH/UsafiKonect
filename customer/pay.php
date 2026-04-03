@@ -39,6 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $phone = sanitize_input($_POST['phone'] ?? '');
         $amount = (float)($_POST['amount'] ?? 0);
         
+        // Validate amount matches booking total
+        if ($booking && abs($amount - (float)$booking['total_amount']) > 0.01) {
+            $errors[] = 'Invalid payment amount.';
+        }
+        
         if ($paymentMethod === 'mpesa') {
             if (empty($phone)) $errors[] = 'Phone number is required.';
             if ($amount < 1) $errors[] = 'Invalid amount.';
@@ -50,9 +55,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($booking) {
                         $stmt = $db->prepare("UPDATE bookings SET payment_status = 'paid', mpesa_receipt = ? WHERE id = ?");
                         $stmt->execute([$result['receipt'] ?? $result['checkout_id'], $bookingId]);
-                        
-                        // Wallet transaction
-                        add_wallet_transaction($userId, 'payment', -$amount, "Payment for booking #{$booking['booking_number']}");
                         
                         create_notification($userId, 'payment', "Payment of " . format_currency($amount) . " for booking #{$booking['booking_number']} received.");
                         create_notification($booking['provider_id'], 'payment', "Payment for booking #{$booking['booking_number']} has been received.");

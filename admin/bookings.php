@@ -96,11 +96,12 @@ include __DIR__ . '/../includes/sidebar.php';
                         <th class="px-4 py-3 text-left">Payment</th>
                         <th class="px-4 py-3 text-right">Amount</th>
                         <th class="px-4 py-3 text-left">Date</th>
+                        <th class="px-4 py-3 text-left">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
                     <?php if (empty($bookings)): ?>
-                    <tr><td colspan="9" class="px-4 py-8 text-center text-gray-400">No bookings found.</td></tr>
+                    <tr><td colspan="10" class="px-4 py-8 text-center text-gray-400">No bookings found.</td></tr>
                     <?php endif; ?>
                     <?php foreach ($bookings as $b): ?>
                     <tr class="hover:bg-gray-50">
@@ -112,12 +113,13 @@ include __DIR__ . '/../includes/sidebar.php';
                         <td class="px-4 py-3">
                             <div class="text-gray-700"><?= e($b['business_name'] ?? $b['provider_name']) ?></div>
                         </td>
-                        <td class="px-4 py-3 text-gray-600"><?= ucwords(str_replace('_', ' ', $b['service_type'])) ?></td>
+                        <td class="px-4 py-3 text-gray-600"><?= ucwords(str_replace('_', ' & ', $b['service_type'])) ?></td>
                         <td class="px-4 py-3 text-center text-gray-600"><?= $b['weight_kg'] ?>kg</td>
                         <td class="px-4 py-3"><?= booking_status_badge($b['status']) ?></td>
                         <td class="px-4 py-3"><?= payment_status_badge($b['payment_status']) ?></td>
                         <td class="px-4 py-3 text-right font-medium text-gray-800"><?= format_currency($b['total_amount']) ?></td>
                         <td class="px-4 py-3 text-xs text-gray-400 whitespace-nowrap"><?= date('M j, Y', strtotime($b['created_at'])) ?></td>
+                        <td class="px-4 py-3"><a href="<?= APP_URL ?>/admin/bookings.php?view=<?= $b['id'] ?>" class="text-orange-500 hover:underline text-sm">View</a></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

@@ -15,6 +15,17 @@ file_put_contents($logFile, date('Y-m-d H:i:s') . " - " . $rawInput . "\n", FILE
 
 header('Content-Type: application/json');
 
+// Safaricom IP whitelist (bypass in debug mode)
+$safaricomIPs = ['196.201.214.200', '196.201.214.206', '196.201.213.114', '196.201.214.207',
+                  '196.201.214.208', '196.201.213.44', '196.201.212.127', '196.201.212.138',
+                  '196.201.212.129', '196.201.212.136', '196.201.212.74', '196.201.212.69'];
+$clientIP = $_SERVER['REMOTE_ADDR'] ?? '';
+if (!APP_DEBUG && !in_array($clientIP, $safaricomIPs)) {
+    http_response_code(403);
+    error_log("M-Pesa callback from unauthorized IP: {$clientIP}");
+    exit;
+}
+
 $data = json_decode($rawInput, true);
 
 if (!$data || !isset($data['Body']['stkCallback'])) {
@@ -79,7 +90,7 @@ if ($resultCode === 0) {
         $update->execute([$mpesaReceipt, $booking['id']]);
         
         // Create wallet transaction record
-        add_wallet_transaction($booking['customer_id'], 'payment', $amount, 
+        add_wallet_transaction($booking['customer_id'], 'payment', -$amount, 
             "M-Pesa payment for booking #" . $booking['booking_number'] . " - Receipt: $mpesaReceipt");
         
         // Notify customer

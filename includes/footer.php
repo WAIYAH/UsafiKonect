@@ -19,16 +19,16 @@
                     <p class="text-gray-400 text-sm italic">"Nguo safi, maisha safi" — Clean clothes, clean life</p>
                     <!-- Social Links -->
                     <div class="flex space-x-3 mt-4">
-                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors" aria-label="Facebook">
+                        <a href="<?= e(get_setting('social_facebook', '#')) ?>" target="_blank" rel="noopener" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors" aria-label="Twitter">
+                        <a href="<?= e(get_setting('social_twitter', '#')) ?>" target="_blank" rel="noopener" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-orange-500 transition-colors" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-green-500 transition-colors" aria-label="WhatsApp">
+                        <a href="<?= e(get_setting('social_whatsapp', '#')) ?>" target="_blank" rel="noopener" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-green-500 transition-colors" aria-label="WhatsApp">
                             <i class="fab fa-whatsapp"></i>
                         </a>
-                        <a href="#" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-pink-500 transition-colors" aria-label="Instagram">
+                        <a href="<?= e(get_setting('social_instagram', '#')) ?>" target="_blank" rel="noopener" class="w-9 h-9 bg-white/10 rounded-lg flex items-center justify-center hover:bg-pink-500 transition-colors" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>

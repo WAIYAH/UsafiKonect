@@ -187,7 +187,7 @@ include __DIR__ . '/../includes/sidebar.php';
                     };
                     ?>
                     <div class="font-medium text-sm text-gray-800"><?= e($notifTitle) ?></div>
-                    <div class="text-xs text-gray-500 mt-0.5"><?= e(mb_substr($n['message'], 0, 80)) ?>...</div>
+                    <div class="text-xs text-gray-500 mt-0.5"><?= e(mb_strlen($n['message']) > 80 ? mb_substr($n['message'], 0, 80) . '...' : $n['message']) ?></div>
                     <div class="text-xs text-gray-400 mt-1"><?= time_ago($n['created_at']) ?></div>
                 </div>
                 <?php endforeach; ?>

@@ -38,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($full_name)) $errors[] = 'Full name is required.';
         if (empty($phone)) $errors[] = 'Phone number is required.';
         if (empty($estate)) $errors[] = 'Estate is required.';
+        $validEstates = ['Buruburu','Dandora','Donholm','Eastleigh','Embakasi','Garden Estate','Huruma','Imara Daima','Jamhuri','Kahawa West','Kangemi','Karen','Kasarani','Kayole','Kibera','Kilimani','Kileleshwa','Komarock','Langata','Lavington','Madaraka','Mathare','Nairobi CBD','Ngara','Ngumo','Nyayo Estate','Pangani','Pipeline','Rongai','South B','Roysambu','Umoja','South C','Westlands','Ruaka','Kawangware','Eastleigh','Parklands','Upperhill','Hurlingham','Thika Road','Mombasa Road','Jogoo Road','Outer Ring','Kayole'];
+        if (!empty($estate) && !in_array($estate, $validEstates)) $errors[] = 'Please select a valid estate.';
         if (empty($business_name)) $errors[] = 'Business name is required.';
         if (!in_array($business_type, ['individual','shop'])) $errors[] = 'Invalid business type.';
         if ($price_per_kg <= 0 || $price_per_kg > 10000) $errors[] = 'Price per kg must be between 1 and 10,000.';
@@ -45,27 +47,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (empty($errors)) {
             $profile_image = $user['profile_image'];
             if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
-                $upload = upload_image($_FILES['profile_image'], 'profiles');
-                if ($upload['success']) {
-                    $profile_image = $upload['path'];
+                $newImage = upload_image($_FILES['profile_image'], 'profiles');
+                if ($newImage) {
+                    $profile_image = $newImage;
                 } else {
-                    $errors[] = $upload['error'];
+                    $errors[] = 'Failed to upload profile image.';
                 }
             }
             
             if (empty($errors)) {
-                $db->beginTransaction();
-                $upd = $db->prepare("UPDATE users SET full_name = ?, phone = ?, estate = ?, profile_image = ?, updated_at = NOW() WHERE id = ?");
-                $upd->execute([$full_name, $phone, $estate, $profile_image, $userId]);
-                
-                $upd2 = $db->prepare("UPDATE provider_details SET business_name = ?, business_type = ?, price_per_kg = ?, description = ? WHERE user_id = ?");
-                $upd2->execute([$business_name, $business_type, $price_per_kg, $description, $userId]);
-                
-                $db->commit();
-                $_SESSION['full_name'] = $full_name;
-                set_flash('success', 'Profile updated successfully!');
-                header('Location: ' . APP_URL . '/provider/profile.php');
-                exit;
+                try {
+                    $db->beginTransaction();
+                    $upd = $db->prepare("UPDATE users SET full_name = ?, phone = ?, estate = ?, profile_image = ?, updated_at = NOW() WHERE id = ?");
+                    $upd->execute([$full_name, $phone, $estate, $profile_image, $userId]);
+                    
+                    $upd2 = $db->prepare("UPDATE provider_details SET business_name = ?, business_type = ?, price_per_kg = ?, description = ? WHERE user_id = ?");
+                    $upd2->execute([$business_name, $business_type, $price_per_kg, $description, $userId]);
+                    
+                    $db->commit();
+                    $_SESSION['full_name'] = $full_name;
+                    set_flash('success', 'Profile updated successfully!');
+                    header('Location: ' . APP_URL . '/provider/profile.php');
+                    exit;
+                } catch (PDOException $e) {
+                    $db->rollBack();
+                    error_log('Profile update failed: ' . $e->getMessage());
+                    $errors[] = 'An error occurred saving your profile. Please try again.';
+                }
             }
         }
     } elseif ($action === 'password') {

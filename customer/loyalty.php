@@ -124,7 +124,7 @@ include __DIR__ . '/../includes/sidebar.php';
                     <?php endfor; ?>
                 </div>
                 
-                <?php if ($i === 6): ?>
+                <?php if ($loyalty['total_bookings'] % 5 === 0 && $loyalty['total_bookings'] > 0): ?>
                 <div class="mt-4 text-center">
                     <div class="inline-flex items-center gap-2 text-3xl">🎊</div>
                 </div>

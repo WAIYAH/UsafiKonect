@@ -24,4 +24,5 @@ include __DIR__ . '/includes/navbar.php';
 </div>
 </div>
 </main>
+<script src="<?= APP_URL ?>/assets/js/gsap-init.js" defer></script>
 <?php include __DIR__ . '/includes/footer.php'; ?>

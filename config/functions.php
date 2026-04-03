@@ -474,6 +474,17 @@ function get_setting(string $key, string $default = ''): string {
 }
 
 /**
+ * Get subscription plan data from DB settings
+ */
+function get_subscription_plans(): array {
+    return [
+        'weekly'  => ['name' => 'Weekly',  'price' => (int)get_setting('sub_price_weekly', '500'),  'days' => 7,   'discount' => '10%', 'save' => ''],
+        'monthly' => ['name' => 'Monthly', 'price' => (int)get_setting('sub_price_monthly', '1800'), 'days' => 30,  'discount' => '15%', 'save' => 'Save 10%'],
+        'yearly'  => ['name' => 'Yearly',  'price' => (int)get_setting('sub_price_yearly', '18000'), 'days' => 365, 'discount' => '20%', 'save' => 'Save 17%'],
+    ];
+}
+
+/**
  * Update a site setting
  */
 function update_setting(string $key, string $value): bool {

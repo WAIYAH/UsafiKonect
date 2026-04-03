@@ -151,8 +151,13 @@ if ($user_role === 'customer') {
 <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t dark:border-gray-700 shadow-lg z-40">
     <div class="flex justify-around items-center h-16 px-2">
         <?php 
-        // Show only 5 key items for mobile
-        $mobileItems = array_slice($sidebar_items, 0, 5);
+        // Show key items for mobile based on role
+        $mobileKeys = ['dashboard.php', 'bookings.php', 'notifications.php', 'profile.php'];
+        if ($user_role === 'customer') array_splice($mobileKeys, 1, 0, ['book.php']);
+        elseif ($user_role === 'provider') array_splice($mobileKeys, 1, 0, ['earnings.php']);
+        elseif ($user_role === 'admin') array_splice($mobileKeys, 1, 0, ['users.php']);
+        $mobileItems = array_filter($sidebar_items, fn($item) => in_array(basename($item['url']), $mobileKeys));
+        $mobileItems = array_values(array_slice($mobileItems, 0, 5));
         foreach ($mobileItems as $item): 
             $isActive = basename($item['url']) === $current_page;
         ?>

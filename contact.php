@@ -32,9 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Send notification email to admin
             send_email(
                 'admin@usafikonect.co.ke',
-                'Admin',
                 "New Contact Form: {$subject}",
-                "<p><strong>From:</strong> {$name} ({$email})</p><p><strong>Subject:</strong> {$subject}</p><p>{$message}</p>"
+                "<p><strong>From:</strong> {$name} ({$email})</p><p><strong>Subject:</strong> {$subject}</p><p>{$message}</p>",
+                'Admin'
             );
             
             $success = true;
@@ -114,12 +114,12 @@ include __DIR__ . '/includes/navbar.php';
                         <div class="grid md:grid-cols-2 gap-5">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                                <input type="text" id="name" name="name" value="<?= e($_POST['name'] ?? (is_logged_in() ? ($_SESSION['full_name'] ?? '') : '')) ?>" required
+                                <input type="text" id="name" name="name" value="<?= e($_POST['name'] ?? (is_logged_in() ? ($_SESSION['user_data']['full_name'] ?? '') : '')) ?>" required
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                <input type="email" id="email" name="email" value="<?= e($_POST['email'] ?? (is_logged_in() ? ($_SESSION['email'] ?? '') : '')) ?>" required
+                                <input type="email" id="email" name="email" value="<?= e($_POST['email'] ?? (is_logged_in() ? ($_SESSION['user_data']['email'] ?? '') : '')) ?>" required
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                             </div>
                         </div>

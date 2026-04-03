@@ -7,16 +7,20 @@
 require_once __DIR__ . '/../config/functions.php';
 
 if (is_logged_in()) {
-    $db = getDB();
-    $userId = get_user_id();
-    
-    // Clear remember-me token from DB
-    $stmt = $db->prepare("UPDATE users SET remember_token = NULL WHERE id = ?");
-    $stmt->execute([$userId]);
-    
-    // Remove user sessions
-    $stmt = $db->prepare("DELETE FROM user_sessions WHERE user_id = ?");
-    $stmt->execute([$userId]);
+    try {
+        $db = getDB();
+        $userId = get_user_id();
+        
+        // Clear remember-me token from DB
+        $stmt = $db->prepare("UPDATE users SET remember_token = NULL WHERE id = ?");
+        $stmt->execute([$userId]);
+        
+        // Remove user sessions
+        $stmt = $db->prepare("DELETE FROM user_sessions WHERE user_id = ?");
+        $stmt->execute([$userId]);
+    } catch (Exception $e) {
+        error_log('Logout DB error: ' . $e->getMessage());
+    }
     
     // Clear remember cookie
     if (isset($_COOKIE['remember_token'])) {

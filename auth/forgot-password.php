@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'expiry' => '1 hour'
                 ]);
                 
-                send_email($user['email'], $user['full_name'], $subject, $body);
+                send_email($user['email'], $subject, $body, $user['full_name']);
             }
         }
     }

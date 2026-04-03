@@ -80,7 +80,7 @@ include __DIR__ . '/../includes/sidebar.php';
     <?= render_flash() ?>
 
     <!-- Stats -->
-    <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-100">
             <div class="text-xs text-gray-400 uppercase mb-1">Active</div>
             <div class="text-xl font-bold text-green-600"><?= $activeSubs ?></div>

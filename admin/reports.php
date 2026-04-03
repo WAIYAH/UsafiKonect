@@ -20,6 +20,34 @@ if ($period !== 'all') {
     $dateWhere = " AND created_at >= DATE_SUB(NOW(), INTERVAL $period DAY)";
 }
 
+// CSV export
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['export_csv']) && validate_csrf_token()) {
+    $rows = $db->query("
+        SELECT b.booking_number, cu.full_name as customer, pu.full_name as provider,
+               b.service_type, b.weight_kg, b.total_amount, b.status, b.payment_status, b.created_at
+        FROM bookings b
+        JOIN users cu ON b.customer_id = cu.id
+        JOIN users pu ON b.provider_id = pu.id
+        WHERE 1=1 $dateWhere
+        ORDER BY b.created_at DESC
+    ")->fetchAll();
+    
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="usafikonect-report-' . date('Y-m-d') . '.csv"');
+    $out = fopen('php://output', 'w');
+    fputcsv($out, ['Booking #', 'Customer', 'Provider', 'Service', 'Weight (kg)', 'Amount (KES)', 'Status', 'Payment', 'Date']);
+    foreach ($rows as $r) {
+        fputcsv($out, [
+            $r['booking_number'], $r['customer'], $r['provider'],
+            ucwords(str_replace('_', ' & ', $r['service_type'])),
+            $r['weight_kg'], $r['total_amount'], ucfirst($r['status']),
+            ucfirst($r['payment_status']), date('Y-m-d H:i', strtotime($r['created_at']))
+        ]);
+    }
+    fclose($out);
+    exit;
+}
+
 // Revenue stats
 $rev = $db->query("SELECT COALESCE(SUM(total_amount),0) as total, COUNT(*) as cnt FROM bookings WHERE payment_status = 'paid' $dateWhere")->fetch();
 $totalRevenue = $rev['total'];
@@ -75,7 +103,8 @@ include __DIR__ . '/../includes/sidebar.php';
 <main class="lg:ml-64 p-4 lg:p-8 dashboard-content">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-3">
         <h1 class="text-2xl font-bold text-gray-800">Reports & Analytics</h1>
-        <div class="flex gap-2">
+        <div class="flex gap-2 flex-wrap items-center">
+            <form method="POST" class="inline"><?= csrf_field() ?><button type="submit" name="export_csv" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-green-600 text-white hover:bg-green-700 transition-colors"><i class="fas fa-download mr-1"></i>Export CSV</button></form>
             <?php foreach ($validPeriods as $k => $label): ?>
             <a href="?period=<?= $k ?>" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors <?= $period === $k ? 'bg-orange-500 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50' ?>"><?= $label ?></a>
             <?php endforeach; ?>

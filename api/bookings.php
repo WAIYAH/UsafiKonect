@@ -103,8 +103,10 @@ switch ($action) {
     case 'stats':
         // Dashboard quick stats
         if ($role === 'customer') {
+            $activeStmt = $db->prepare("SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('pending','confirmed','processing','ready')");
+            $activeStmt->execute([$userId]);
             echo json_encode([
-                'active_bookings' => $db->prepare("SELECT COUNT(*) FROM bookings WHERE customer_id = ? AND status IN ('pending','confirmed','processing','ready')")->execute([$userId]) ? $db->query("SELECT FOUND_ROWS()")->fetchColumn() : 0,
+                'active_bookings' => (int)$activeStmt->fetchColumn(),
                 'wallet' => get_wallet_balance($userId),
                 'unread_notifications' => get_unread_notification_count($userId)
             ]);
